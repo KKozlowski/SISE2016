@@ -13,8 +13,6 @@ int countt = 0;
 
 void DfsEnding();
 
-
-
 bool wasVisitedDfs(uint64_t i) {
 	map<uint64_t, uint64_t>::iterator it = dfsVisited->find(i);
 	cout << (it != dfsVisited->end()) << endl;
@@ -32,6 +30,9 @@ void DFS(uint64_t i, uint64_t previous) {
 			//JOY!
 			dfsVisited->insert(pair<uint64_t, uint64_t>(i, previous));
 			dfsToVisit.pop_front();
+			cout << endl << "END" << endl;
+			node n(i);
+			n.printArray();
 			DfsEnding();
 		}
 		else {
@@ -49,18 +50,22 @@ void DFS(uint64_t i, uint64_t previous) {
 			DFS(n.getG(), i);
 			DFS(n.getD(), i);*/
 			
-			dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getL(), i));
-			dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getP(), i));
-			dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getG(), i));
-			dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getD(), i));
+			
+			
+			if (!wasVisitedDfs(n.getG())) dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getG(), i));
+			if (!wasVisitedDfs(n.getD())) dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getD(), i));
+			
+			if (!wasVisitedDfs(n.getP())) dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getP(), i));
+			if (!wasVisitedDfs(n.getL())) dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getL(), i));
 		}
 	}
 }
 
+int ile = 0;
 void DfsMain(uint64_t first) {
 	dfsToVisit.push_back(pair<uint64_t, uint64_t>(first, 0));
-	while ((!dfsFound || !dfsToVisit.empty())) {
-
+	while ((!dfsFound && !dfsToVisit.empty())) {
+		ile++;
 		DFS(dfsToVisit.front().first, dfsToVisit.front().second);
 		
 	}
