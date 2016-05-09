@@ -5,12 +5,13 @@
 #include <map>
 #include "node.h"
 #include "dfs.h"
+#include "astar.h"
 using namespace std;
 
 node readFromStream() {
 	int w, k;
 	cin >> w >> k;
-	cout << "\nWiersze: " << w << " Kolumny: " << k << endl;
+	//cout << "\nWiersze: " << w << " Kolumny: " << k << endl;
 	uint64_t sonda = 0;
 	uint64_t wynik = 0;
 
@@ -21,8 +22,8 @@ node readFromStream() {
 		wynik = wynik << 4 | (sonda & 15);
 
 	}
-	cout << bitset<64>(wynik) << endl;
-	cout << endl;
+	//cout << bitset<64>(wynik) << endl;
+	//cout << endl;
 	node n(wynik);
 	return n;
 }
@@ -31,17 +32,20 @@ node readFromStream() {
 
 void main() {
 	node n = readFromStream();
-	n.printArray();
+	//n.printArray();
 	char type;
 	cin >> recurLimit;
 
 	cin >> type;
-	cout << endl << type << endl;
+	//cout << endl << type << endl;
 
 	if (type == 'D' || type == 'd') {
 		DfsMain(n.content);
 	} else if (type == 'B' || type == 'b') {
 		BfsMain(n.content);
+	}
+	else if (type == 'A' || type == 'a') {
+		AstarMain(n.content);
 	}
 	/*
 	node(n.getD()).printArray();

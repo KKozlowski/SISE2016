@@ -149,6 +149,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="astar.h" />
     <ClInclude Include="dfs.h" />
     <ClInclude Include="node.h" />
   </ItemGroup>
