@@ -16,7 +16,7 @@ node readFromStream() {
 
 	for (int i = 0; i < 16; i++) {
 		cin >> sonda;
-		cout << sonda << endl;
+		//cout << sonda << endl;
 		wynik << 4;
 		wynik = wynik << 4 | (sonda & 15);
 
@@ -33,11 +33,15 @@ void main() {
 	node n = readFromStream();
 	n.printArray();
 	char type;
+	cin >> recurLimit;
+
 	cin >> type;
 	cout << endl << type << endl;
-	
+
 	if (type == 'D' || type == 'd') {
 		DfsMain(n.content);
+	} else if (type == 'B' || type == 'b') {
+		BfsMain(n.content);
 	}
 	/*
 	node(n.getD()).printArray();

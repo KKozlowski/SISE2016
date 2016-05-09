@@ -2,78 +2,90 @@
 //http://stackoverflow.com/questions/5278580/non-recursive-depth-first-search-algorithm
 #include <map>
 #include <list>
+#include <tuple>
 #include "node.h"
 uint64_t solution = 0x123456789ABCDEF0;
 using namespace std;
-list<pair<uint64_t, uint64_t>> dfsToVisit;
-map<uint64_t, uint64_t> *dfsVisited = new map<uint64_t, uint64_t>();
-bool dfsFound = false;
+list<tuple<uint64_t, uint64_t, int>> xfsToVisit;
+map<uint64_t, uint64_t> *xfsVisited = new map<uint64_t, uint64_t>();
+bool Found = false;
 
 int countt = 0;
 
-void DfsEnding();
+int recurLimit = 5;
 
-bool wasVisitedDfs(uint64_t i) {
-	map<uint64_t, uint64_t>::iterator it = dfsVisited->find(i);
-	cout << (it != dfsVisited->end()) << endl;
-	return (it != dfsVisited->end());
+void xfsEnding();
+
+bool wasVisitedXfs(uint64_t i) {
+	map<uint64_t, uint64_t>::iterator it = xfsVisited->find(i);
+	return (it != xfsVisited->end());
 }
 
-void DFS(uint64_t i, uint64_t previous) {
-	if (dfsFound || i == 0 || wasVisitedDfs(i)) {
-		dfsToVisit.pop_front();
+void XFS(uint64_t i, uint64_t previous, int howmany, bool dfs) {
+	if (howmany > recurLimit || Found || i == 0 || wasVisitedXfs(i)) {
+		xfsToVisit.pop_front();
 		return;
 	}
 		
 	else {
+		xfsVisited->insert(pair<uint64_t, uint64_t>(i, previous));
 		if (i == solution) {
 			//JOY!
-			dfsVisited->insert(pair<uint64_t, uint64_t>(i, previous));
-			dfsToVisit.pop_front();
+			
+			xfsToVisit.pop_front();
 			cout << endl << "END" << endl;
 			node n(i);
 			n.printArray();
-			DfsEnding();
+			xfsEnding();
 		}
 		else {
 			//VISIT
-			dfsVisited->insert(pair<uint64_t, uint64_t>(i, previous));
 			node n(i);
-			n.printArray();
-			cout << countt++ << endl;
-			/**/
+			//n.printArray();
 
+			xfsToVisit.pop_front();
+			
+			
+			if (dfs) {
+				if (!wasVisitedXfs(n.getG())) xfsToVisit.push_front(tuple<uint64_t, uint64_t, int>(n.getG(), i, howmany + 1));
+				if (!wasVisitedXfs(n.getD())) xfsToVisit.push_front(tuple<uint64_t, uint64_t, int>(n.getD(), i, howmany + 1));
 
-			dfsToVisit.pop_front();
-			/*DFS(n.getL(), i);
-			DFS(n.getP(), i);
-			DFS(n.getG(), i);
-			DFS(n.getD(), i);*/
-			
-			
-			
-			if (!wasVisitedDfs(n.getG())) dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getG(), i));
-			if (!wasVisitedDfs(n.getD())) dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getD(), i));
-			
-			if (!wasVisitedDfs(n.getP())) dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getP(), i));
-			if (!wasVisitedDfs(n.getL())) dfsToVisit.push_front(pair<uint64_t, uint64_t>(n.getL(), i));
+				if (!wasVisitedXfs(n.getP())) xfsToVisit.push_front(tuple<uint64_t, uint64_t, int>(n.getP(), i, howmany + 1));
+				if (!wasVisitedXfs(n.getL())) xfsToVisit.push_front(tuple<uint64_t, uint64_t, int>(n.getL(), i, howmany + 1));
+			}
+			else { //if bfs
+				if (!wasVisitedXfs(n.getG())) xfsToVisit.push_back(tuple<uint64_t, uint64_t, int>(n.getG(), i, howmany + 1));
+				if (!wasVisitedXfs(n.getD())) xfsToVisit.push_back(tuple<uint64_t, uint64_t, int>(n.getD(), i, howmany + 1));
+															
+				if (!wasVisitedXfs(n.getP())) xfsToVisit.push_back(tuple<uint64_t, uint64_t, int>(n.getP(), i, howmany + 1));
+				if (!wasVisitedXfs(n.getL())) xfsToVisit.push_back(tuple<uint64_t, uint64_t, int>(n.getL(), i, howmany + 1));
+			}
 		}
 	}
 }
 
 int ile = 0;
 void DfsMain(uint64_t first) {
-	dfsToVisit.push_back(pair<uint64_t, uint64_t>(first, 0));
-	while ((!dfsFound && !dfsToVisit.empty())) {
+	xfsToVisit.push_back(tuple<uint64_t, uint64_t, int>(first, 0,0));
+	while ((!Found && !xfsToVisit.empty())) {
 		ile++;
-		DFS(dfsToVisit.front().first, dfsToVisit.front().second);
-		
+		XFS(get<0>(xfsToVisit.front()), get<1>(xfsToVisit.front()), get<2>(xfsToVisit.front()), true);
 	}
 	//nodes_to_visit.prepend(currentnode.children);
 	//do something
 }
 
-void DfsEnding() {
-	dfsFound = true;
+void BfsMain(uint64_t first) {
+	xfsToVisit.push_back(tuple<uint64_t, uint64_t, int>(first, 0, 0));
+	while ((!Found && !xfsToVisit.empty())) {
+		ile++;
+		XFS(get<0>(xfsToVisit.front()), get<1>(xfsToVisit.front()), get<2>(xfsToVisit.front()), false);
+	}
+	//nodes_to_visit.prepend(currentnode.children);
+	//do something
+}
+
+void xfsEnding() {
+	Found = true;
 }
 
