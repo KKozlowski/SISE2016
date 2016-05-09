@@ -14,6 +14,7 @@ public:
 	uint64_t content;
 	uint64_t previous;
 	int moveCount;
+	char move = 0;
 
 	astarNode() {
 		this->content = 0;
@@ -21,10 +22,11 @@ public:
 		this->moveCount = std::numeric_limits<int>::max();
 	}
 
-	astarNode(uint64_t content,uint64_t previous,int count) {
+	astarNode(uint64_t content,uint64_t previous,int count, char move) {
 		this->content = content;
 		this->previous= previous;
 		this->moveCount   = count;
+		this->move = move;
 	}
 
 	bool operator<(const astarNode &two) const {
@@ -64,7 +66,7 @@ void Astar(astarNode a, int howmany) {
 
 	else {
 		//xfsVisited.insert(pair<uint64_t, VisitInfo>(i, VisitInfo(previous, howmany)));
-		visited[a.content] = VisitInfo(a.previous, howmany);
+		visited[a.content] = VisitInfo(a.previous, howmany, a.move);
 		if (a.content == solution) {
 			//JOY!
 			Ending(a.content);
@@ -75,10 +77,10 @@ void Astar(astarNode a, int howmany) {
 			node n(i);
 			//n.printArray();
 
-			if (!wasVisited(n.getG())) astarToVisit.push(astarNode(n.getG(), i, howmany + 1));
-			if (!wasVisited(n.getD())) astarToVisit.push(astarNode(n.getD(), i, howmany + 1));
-			if (!wasVisited(n.getP())) astarToVisit.push(astarNode(n.getP(), i, howmany + 1));
-			if (!wasVisited(n.getL())) astarToVisit.push(astarNode(n.getL(), i, howmany + 1));
+			if (!wasVisited(n.getG())) astarToVisit.push(astarNode(n.getG(), i, howmany + 1, 'G'));
+			if (!wasVisited(n.getD())) astarToVisit.push(astarNode(n.getD(), i, howmany + 1, 'D'));
+			if (!wasVisited(n.getP())) astarToVisit.push(astarNode(n.getP(), i, howmany + 1, 'P'));
+			if (!wasVisited(n.getL())) astarToVisit.push(astarNode(n.getL(), i, howmany + 1, 'L'));
 		}
 	}
 }
@@ -86,7 +88,7 @@ void Astar(astarNode a, int howmany) {
 
 int ileA = 0;
 void AstarMain(uint64_t first) {
-	astarToVisit.push(astarNode(first, 0, 0));
+	astarToVisit.push(astarNode(first, 0, 0,0));
 	while ((!Found && !astarToVisit.empty())) {
 		ileA++;
 		Astar(astarToVisit.top(),0);
