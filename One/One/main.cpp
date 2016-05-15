@@ -9,9 +9,10 @@
 using namespace std;
 
 node readFromStream() {
-	int w, k;
-	cin >> w >> k;
-	//cout << "\nWiersze: " << w << " Kolumny: " << k << endl;
+	cin >> rowCount >> columnsCount;
+	fieldCount = rowCount * columnsCount;
+	lastIndex = fieldCount - 1;
+	//cout << "\nWiersze: " << rowCount << " Kolumny: " << columnsCount << endl;
 	uint64_t sonda = 0;
 	uint64_t wynik = 0;
 
@@ -45,7 +46,7 @@ void main() {
 		BfsMain(n.content);
 	}
 	else if (type == 'A' || type == 'a') {
-		AstarMain(n.content);
+		AstarMain(n.content, HammingHeuristic);
 	}
 	/*
 	node(n.getD()).printArray();

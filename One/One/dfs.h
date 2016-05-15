@@ -7,6 +7,8 @@
 #include "node.h"
 using namespace std;
 
+int stepCount = 0;
+
 class VisitInfo {
 public:
 	uint64_t previous = 0;
@@ -134,27 +136,29 @@ void XFS(uint64_t i, uint64_t previous, int howmany, char move, bool dfs) {
 	}
 }
 
-int ile = 0;
 void DfsMain(uint64_t first) {
+	stepCount = 0;
 	xfsToVisit.push_back(tuple<uint64_t, uint64_t, int, char>(first, 0,0,0));
 	while ((!Found && !xfsToVisit.empty())) {
-		ile++;
 		XFS(get<0>(xfsToVisit.front()), get<1>(xfsToVisit.front()), get<2>(xfsToVisit.front()), get<3>(xfsToVisit.front()), true);
+		stepCount++;
 	}
 
-	//cout << endl << "MOVES: " << ile << endl;
+	cout << endl << "MOVES: " << stepCount << endl;
 	//nodes_to_visit.prepend(currentnode.children);
 	//do something
 }
 
 void BfsMain(uint64_t first) {
+	stepCount = 0;
 	xfsToVisit.push_back(tuple<uint64_t, uint64_t, int, char>(first, 0, 0, 0));
 	while ((!Found && !xfsToVisit.empty())) {
 		//ile++;
 		XFS(get<0>(xfsToVisit.front()), get<1>(xfsToVisit.front()), get<2>(xfsToVisit.front()), get<3>(xfsToVisit.front()), false);
+		stepCount++;
 	}
 
-	//cout << endl << "MOVES: " << ile << endl;
+	cout << endl << "MOVES: " << stepCount << endl;
 	//nodes_to_visit.prepend(currentnode.children);
 	//do something
 }

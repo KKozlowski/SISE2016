@@ -1,12 +1,16 @@
 #pragma once
 #include <iostream>
 using namespace std;
+int columnsCount = 4;
+int rowCount = 4;
+int fieldCount = 16;
+int lastIndex = 15;
 int getRow(int i) {
-	return i / 4;
+	return i / columnsCount;
 }
 
 int getColumn(int i) {
-	return i % 4;
+	return i % columnsCount;
 }
 class node {
 public:
