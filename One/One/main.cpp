@@ -45,12 +45,15 @@ void main() {
 	} else if (type == 'B' || type == 'b') {
 		BfsMain(n.content);
 	}
-	else if (type == 'A' || type == 'a') {
+	else if (type == 'A' || type == 'a' || type == 'H' || type == 'h') {
 		AstarMain(n.content, HammingHeuristic);
+	}
+	else if (type == 'M' || type == 'm') {
+		AstarMain(n.content, ManhattanHeuristic);
 	}
 	/*
 	node(n.getD()).printArray();
 	node(n.getL()).printArray();
 	*/
-	system("PAUSE");
+	std::system("PAUSE");
 }
