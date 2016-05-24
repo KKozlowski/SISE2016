@@ -1,0 +1,23 @@
+﻿Kamil Kozłowski 189704
+Maciej Michalski 189732
+Bartłomiej Paszkowski 180658
+
+Przykładowy input załączony w pliku testText.txt
+
+Link do ściągnięcia warstwy prezentacyjnej napisanej w Unreal Engine 4
+https://drive.google.com/open?id=0B_vO6tf18D_zX050cno0cW1NZ0k
+
+	Uruchamiamy MyProject7
+	W celu ułożenia klikamy K
+	Klikając na dany sześcian możemy zmienić liczbę
+	Klikając S zachowujemy stan tablicy i restartujemy program
+
+	UWAGA!!!
+	mogą wystąpiæ komunikaty "Nie można zweryfikować wydawcy..."
+	nie ma sprawdzania czy istnieje możliwość ułożenia - program się "wywali"
+
+	zapasowy plik testText.txt należy w takim wypadku umieścić w ...\pietnastka\MyProject7\Binaries\Win32
+
+	Program rozwiązujący (One.exe) działa niezależnie od warstwy prezentacji, 
+	jednak warstwa prezentacji wywołuje go za każdym razem, 
+	przyjmując plik input taki jak testText.txt
