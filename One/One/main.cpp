@@ -6,6 +6,7 @@
 #include "node.h"
 #include "dfs.h"
 #include "astar.h"
+#include <time.h>
 using namespace std;
 
 node readFromStream() {
@@ -40,6 +41,9 @@ void main() {
 	cin >> type;
 	//cout << endl << type << endl;
 
+	clock_t tStart = clock();
+	/* Do your stuff here */
+	
 	if (type == 'D' || type == 'd') {
 		DfsMain(n.content);
 	} else if (type == 'B' || type == 'b') {
@@ -51,6 +55,8 @@ void main() {
 	else if (type == 'M' || type == 'm') {
 		AstarMain(n.content, ManhattanHeuristic);
 	}
+
+	printf("TIME: %.5fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
 	/*
 	node(n.getD()).printArray();
 	node(n.getL()).printArray();
