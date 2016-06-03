@@ -10,6 +10,9 @@ using namespace std;
 
 class element {
 public:
+	static double(*metric)(const element *, const element *);
+	static element *current;
+
 	element() {
 		this->length = 5;
 	}
@@ -26,7 +29,7 @@ public:
 	string getSource() { return source; }
 	void setSource(string str) {
 		source = str;
-		cout << "ELEMENT: \n";
+		//cout << "ELEMENT: \n";
 
 		std::stringstream ss(str);
 
@@ -44,16 +47,26 @@ public:
 		}
 
 		for (i = 0; i< vect.size(); i++)
-			std::cout << vect.at(i) << std::endl;
+			//std::cout << vect.at(i) << std::endl;
 
 		ss >> name;
-		std::cout << "name: " << name << std::endl;
+		//std::cout << "name: " << name << std::endl;
 		//
+	}
+
+	double get_deviation() const {
+		return metric(this, current);
+	}
+
+	bool operator<(const element &two) const {
+		return get_deviation() > two.get_deviation();
 	}
 
 	double& operator[] (int i) {
 		return vect[i];
 	}
+
+	string to_string() { return getSource(); }
 
 private:
 	int length;
