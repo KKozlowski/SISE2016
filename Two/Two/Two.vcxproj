@@ -150,6 +150,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="classifier.h" />
     <ClInclude Include="element.h" />
     <ClInclude Include="element_list.h" />
   </ItemGroup>

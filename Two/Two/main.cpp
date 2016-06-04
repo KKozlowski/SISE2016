@@ -7,6 +7,7 @@
 
 #include "element.h"
 #include "element_list.h"
+#include "classifier.h"
 using namespace std;
 
 element_list element_list::main;
@@ -29,7 +30,8 @@ void main() {
 
 	clock_t tStart = clock();
 	/* Do your stuff here */
-	
+
+	classifier::qualify_sets(pair.second, pair.first, EuklideanMetric, 5);
 
 	printf("TIME: %.5fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
 

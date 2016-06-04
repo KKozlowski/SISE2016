@@ -23,8 +23,8 @@ public:
 	}
 
 	//int getSourceCount() { return length; }
-	int getParameterCount() { return length - 1; }
-	string getName() { return name; }
+	int getParameterCount() const { return length - 1; }
+	string getName() const { return name; }
 
 	string getSource() { return source; }
 	void setSource(string str) {
@@ -62,11 +62,24 @@ public:
 		return get_deviation() > two.get_deviation();
 	}
 
+	double at (int i) const {
+		return vect[i];
+	}
+
 	double& operator[] (int i) {
 		return vect[i];
 	}
 
 	string to_string() { return getSource(); }
+
+	class compare_pointers
+	{
+	public:
+		bool operator() (element * one, element * two)
+		{
+			return *one < *two;
+		}
+	};
 
 private:
 	int length;
