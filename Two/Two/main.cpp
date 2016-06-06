@@ -31,7 +31,7 @@ void main() {
 	clock_t tStart = clock();
 	/* Do your stuff here */
 
-	classifier::qualify_sets(pair.second, pair.first, EuklideanMetric, 5);
+	classifier::qualify_sets(pair.second, pair.first, EuklideanMetric, 5, WeightedSum, true);
 
 	printf("TIME: %.5fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
 
