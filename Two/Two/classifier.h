@@ -11,16 +11,19 @@
 #include "element.h"
 
 enum MetricType {
-	EuklideanMetric,
-	ManhattanMetric, //taksówkowa
-	CzebyszewMetric
+	EuklideanMetric = 0,
+	ManhattanMetric = 1, //taksówkowa
+	CzebyszewMetric = 2
 };
 
 enum ChosingType {
-	FirstOnly,
-	MostAppearances,
-	WeightedSum
+	FirstOnly = 1,
+	MostAppearances = 111,
+	WeightedSum = 321
 };
+
+
+//METRYKI
 
 double euclid(const element *one, const element *two) {
 	double result = 0;
@@ -31,7 +34,23 @@ double euclid(const element *one, const element *two) {
 	return result;
 }
 
+double manhattan(const element *one, const element *two) {
+	double result = 0;
+	for (int i = 0; i < one->getParameterCount() && i < two->getParameterCount(); i++) {
+		result += abs(one->at(i) - two->at(i));
+	}
+	return result;
+}
 
+double czebyszew(const element *one, const element *two) {
+	double result = 0;
+	double value = 0;
+	for (int i = 0; i < one->getParameterCount() && i < two->getParameterCount(); i++) {
+		value = abs(one->at(i) - two->at(i));
+		if (value > result) result = value;
+	}
+	return result;
+}
 
 
 element * element::current;
@@ -43,8 +62,14 @@ public:
 		n_closest_neighbors(element *e, vector<element *> *data , MetricType metric, int neighborCount)
 	{
 		element::current = e;
-		if (metric == EuklideanMetric || true)
+		if (metric == EuklideanMetric)
 			element::metric = euclid;
+		else if (metric == ManhattanMetric) {
+			element::metric = manhattan;
+		}
+		else {
+			element::metric = czebyszew;
+		}
 
 		priority_queue<element *, vector<element *>, element::compare_pointers>* result 
 			= new priority_queue<element *, vector<element *>, element::compare_pointers>();
@@ -63,6 +88,7 @@ public:
 	static void qualify_sets(vector<element *> * tested, vector<element *> *data, MetricType metric, int neighborCount, ChosingType chosing, bool print = true) {
 		int succeeded = 0;
 		int failed = 0;
+		cout << "METRIC: " << metric << " CHOOSING: " << chosing << endl;
 		for (element * e : *tested) {
 			if (print) cout << "QUALIFYING: " << e->to_string() << endl;
 			auto q = n_closest_neighbors(e, data, metric, 5);
