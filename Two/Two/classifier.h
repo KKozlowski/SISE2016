@@ -91,7 +91,7 @@ public:
 		cout << "METRIC: " << metric << " CHOOSING: " << chosing << endl;
 		for (element * e : *tested) {
 			if (print) cout << "QUALIFYING: " << e->to_string() << endl;
-			auto q = n_closest_neighbors(e, data, metric, 5);
+			auto q = n_closest_neighbors(e, data, metric, neighborCount);
 
 			string qualifiedName = "";
 
