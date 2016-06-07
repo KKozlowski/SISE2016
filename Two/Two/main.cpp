@@ -13,13 +13,13 @@ using namespace std;
 element_list element_list::main;
 
 void readFromStream() {
-	int length;
-	cin >> length;
+	int length, nameIndex;
+	cin >> length >> nameIndex;
 
 	while (!cin.eof()) {
 		string s;
 		cin >> s;
-		element_list::main.list.push_back( new element (s, length) );
+		element_list::main.list.push_back( new element (s, length, nameIndex) );
 		//cout << '\n';
 	}
 }

@@ -5,6 +5,8 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <algorithm>
+#include <string>
 #include <time.h>
 using namespace std;
 
@@ -13,13 +15,9 @@ public:
 	static double(*metric)(const element *, const element *);
 	static element *current;
 
-	element() {
-		this->length = 5;
-	}
-
-	element(string source, int length) {
+	element(string source, int length, int nameIndex) {
 		this->length = length;
-		setSource(source);
+		setSource(source, nameIndex);
 	}
 
 	//int getSourceCount() { return length; }
@@ -27,33 +25,33 @@ public:
 	string getName() const { return name; }
 
 	string getSource() { return source; }
-	void setSource(string str) {
+	void setSource(string str, int nameIndex) {
 		source = str;
 		//cout << "ELEMENT: \n";
-
-		std::stringstream ss(str);
+		std::replace(source.begin(), source.end(), ',', ' ');
+		std::stringstream ss(source);
 
 		double i;
 		int k = 0;
-		while (k < getParameterCount())
+		while (k < length)
 		{
-			ss >> i;
-			vect.push_back(i);
+			if (k == nameIndex) {
+				ss >> name;
+			}
+			else {
+				ss >> i;
+				vect.push_back(i);
+			}
 
-			if (k!=getParameterCount())
+
+			if (k != length)
 				if (ss.peek() == ',')
 					ss.ignore();
 			k++;
+			}
 		}
 
-		for (i = 0; i< vect.size(); i++)
-			//std::cout << vect.at(i) << std::endl;
-
-		ss >> name;
-		//std::cout << "name: " << name << std::endl;
-		//
-	}
-
+	//Aby poprawiæ skutecznoœæ, obliczaj odchylenie standardowe dla ka¿dej KOLUMNY osobno i dziel jej elementy przez to odchylenie.
 	double get_deviation() const {
 		return metric(this, current);
 	}
