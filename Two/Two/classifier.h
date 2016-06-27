@@ -85,10 +85,34 @@ public:
 		return result;
 	}
 
+	static vector<string> get_all_names(vector<element *> *known)
+	{
+		vector <string> v;
+		for (int k = 0; k < known->size(); k++)
+		{
+			if (std::find(v.begin(), v.end(), known->at(k)->getName()) == v.end())
+				v.push_back(known->at(k)->getName());
+		}
+
+		return v;
+	}
+
 	static void qualify_sets(vector<element *> * tested, vector<element *> *data, MetricType metric, int neighborCount, ChosingType chosing, bool print = true) {
 		int succeeded = 0;
 		int failed = 0;
-		cout << "METRIC: " << metric << " CHOOSING: " << chosing << endl;
+
+		map<string, int> falseNegative;
+		map<string, int> falsePositive;
+
+		vector<string> all_tested_names = get_all_names(tested);
+
+		for(string s : all_tested_names)
+		{
+			falseNegative[s] = 0;
+			falsePositive[s] = 0;
+		}
+
+		cout << "\n\nMETRIC: " << metric << " CHOOSING: " << chosing << endl;
 		for (element * e : *tested) {
 			if (print) cout << "QUALIFYING: " << e->to_string() << endl;
 			auto q = n_closest_neighbors(e, data, metric, neighborCount);
@@ -145,9 +169,25 @@ public:
 			else {
 				if (print) cout << "FAILURE\n\n";
 				failed++;
+
+				falseNegative[e->getName()]++;
+				falsePositive[qualifiedName]++;
 			}
 		}
 		
 		cout << "SUCCEEDED: " << succeeded << endl << "FAILED: " << failed << endl;
+
+		//Mistakes:
+		cout << "FALSE NEGATIVES: " << endl;
+		for (auto const &ent1 : falseNegative) {
+			cout << "* " << ent1.first << ": " << ent1.second << endl;
+
+		}
+
+		cout << endl<<  "FALSE POSITIVES: " << endl;
+		for (auto const &ent1 : falsePositive) {
+			cout << "* " << ent1.first << ": " << ent1.second << endl;
+
+		}
 	}
 };

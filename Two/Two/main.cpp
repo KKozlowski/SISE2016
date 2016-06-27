@@ -26,7 +26,7 @@ void readFromStream() {
 
 void main() {
 	readFromStream();
-	auto pair = element_list::main.getTestPair(2, 1);
+	auto pair = element_list::main.getTestPair(2, 2, false);
 
 	clock_t tStart = clock();
 	/* Do your stuff here */

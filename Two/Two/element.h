@@ -64,6 +64,11 @@ public:
 		return vect[i];
 	}
 
+	void set_at(int i, double d)
+	{
+		vect[i] = d;
+	}
+
 	double& operator[] (int i) {
 		return vect[i];
 	}
